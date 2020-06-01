@@ -1,0 +1,204 @@
+Xiang Li 300056427 xli355@uottawa.com
+
+2001:
+➜  simplechat1 git:(Test1) ✗ java ClientConsole                      
+invalid login
+
+2002:
+➜  simplechat1 git:(Test1) ✗ java ClientConsole Xiang 
+> Error: Can't setup connection! Terminating client.
+
+2003:
+➜  simplechat1 git:(Test1) ✗ java ServerConsole
+>>> Server listening for connections on port 5555
+
+➜  simplechat1 git:(Test1) ✗ java ClientConsole Xiang
+
+>>> localhost (127.0.0.1) is connected!
+>>> Message received: #Xiang from localhost (127.0.0.1)
+
+2004, 2005
+➜  simplechat1 git:(Test1) ✗ java ClientConsole Xiang
+testing 1
+[client]
+> Xiang: testing 1
+[server]
+>>> Message received: testing 1 from Xiang
+
+2006.
+[server]
+this message from srererere
+>>> SERVER MSG>this message from srererere
+[client]
+> SERVER MSG>this message from srererere
+
+2007.
+[server]
+#quit 
+➜  simplechat1 git:(Test1) ✗ 
+[client]
+> Server shut down.
+> Connection Closed.
+
+2008
+[server]
+>>> Server listening for connections on port 5555
+>>> localhost (127.0.0.1) is connected!
+>>> Message received: #Xiang from 
+#stop
+>>> Server has stopped listening for connections.
+>>> Message received: send from Xiang
+#start
+>>> Server listening for connections on port 5555
+>>> localhost (127.0.0.1) is connected!
+>>> Message received: #Li from 
+
+[client1]
+➜  simplechat1 git:(Test1) ✗ java ClientConsole Xiang
+> WARNING - The server has stopped listening for connections
+send
+> Xiang: send
+
+[client2]
+➜  simplechat1 git:(Test1) ✗ java ClientConsole Li                 
+
+2009
+#close 
+>>> Server has stopped listening for connections.
+>>> #Xiang disconnected!
+>>> #Li disconnected!
+
+2010
+[server]
+➜  simplechat1 git:(Test1) ✗ java ServerConsole      
+>>> Server listening for connections on port 5555
+>>> localhost (127.0.0.1) is connected!
+>>> Message received: #Xiang from localhost (127.0.0.1)
+#close
+>>> Server has stopped listening for connections.
+>>> #Xiang disconnected!
+
+[client]
+➜  simplechat1 git:(Test1) ✗ java ClientConsole Xiang
+> Server shut down.
+> Connection Closed.
+
+2011
+[server]
+➜  simplechat1 git:(Test1) ✗ java ServerConsole
+>>> Server listening for connections on port 5555
+>>> localhost (127.0.0.1) is connected!
+>>> Message received: #Xiang from localhost (127.0.0.1)
+>>> #Xiang disconnected!
+[client]
+#logoff
+> Connection Closed.
+
+2013
+➜  simplechat1 git:(Test1) ✗ java ServerConsole 1234
+>>> Server listening for connections on port 1234
+
+2014
+[server]
+➜  simplechat1 git:(Test1) ✗ java ServerConsole 1234
+>>> Server listening for connections on port 1234
+>>> localhost (127.0.0.1) is connected!
+>>> Message received: #Xiang from localhost (127.0.0.1)
+[client]
+➜  simplechat1 git:(Test1) ✗ java ClientConsole Xiang localhost 1234
+
+2015
+[server]
+➜  simplechat1 git:(Test1) ✗ java ServerConsole     
+>>> Server listening for connections on port 5555
+>>> localhost (127.0.0.1) is connected!
+>>> Message received: #Xiang from localhost (127.0.0.1)
+>>> localhost (127.0.0.1) is connected!
+>>> Message received: #Li from localhost (127.0.0.1)
+>>> Message received: message from xiang from Xiang
+>>> Message received: message from Li from Li
+>>> Message received: message from terminal1 from Xiang
+>>> Message received: message from terminal2 from Li
+>>> #Xiang disconnected!
+>>> #Li disconnected!
+#close
+>>> Server has stopped listening for connections.
+#setport 1234
+>>> new port has been set to 1234
+#start
+>>> Server listening for connections on port 1234
+>>> localhost (127.0.0.1) is connected!
+>>> Message received: #Li from localhost (127.0.0.1)
+>>> localhost (127.0.0.1) is connected!
+>>> Message received: #Xiang from localhost (127.0.0.1)
+>>> Message received: message from terminal1 via 1234 from Xiang
+>>> Message received: message from terminal2 via1234 from Li
+#quit
+➜  simplechat1 git:(Test1) ✗ 
+
+[terimnal 1 (i.e. client1)]
+➜  simplechat1 git:(Test1) ✗ java ClientConsole Xiang               
+message from xiang
+> Xiang: message from xiang
+> Li: message from Li
+message from terminal1
+> Xiang: message from terminal1
+> Li: message from terminal2
+#logoff
+> Connection Closed.
+#setport 1234       
+> New port set to 1234
+#login
+message from terminal1 via 1234
+> Xiang: message from terminal1 via 1234
+> Li: message from terminal2 via1234
+> Server shut down.
+> Connection Closed.
+
+[terminal2 (client2)]
+➜  simplechat1 git:(Test1) ✗ java ClientConsole Li
+> Xiang: message from xiang
+message from Li
+> Li: message from Li
+> Xiang: message from terminal1
+message from terminal2
+> Li: message from terminal2
+#logoff
+> Connection Closed.
+#setport 1234
+> New port set to 1234
+#login
+> Xiang: message from terminal1 via 1234
+message from terminal2 via1234
+> Li: message from terminal2 via1234
+> Server shut down.
+> Connection Closed.
+
+2017
+
+[terminal 1]
+➜  simplechat1 git:(Test1) ✗ java ClientConsole 1    
+#quit
+> Connection Closed.
+➜  simplechat1 git:(Test1) ✗ 
+
+[terminal 2]
+➜  simplechat1 git:(Test1) ✗ java ClientConsole 2  
+#logoff
+> Connection Closed.
+
+[terminal 3]
+➜  simplechat1 git:(Test1) ✗ java ClientConsole 3     
+
+[server]
+➜  simplechat1 git:(Test1) ✗ java ServerConsole
+>>> Server listening for connections on port 5555
+>>> localhost (127.0.0.1) is connected!
+>>> Message received: #1 from localhost (127.0.0.1)
+>>> localhost (127.0.0.1) is connected!
+>>> Message received: #2 from localhost (127.0.0.1)
+>>> localhost (127.0.0.1) is connected!
+>>> Message received: #3 from localhost (127.0.0.1)
+>>> #1 disconnected!
+>>> #2 disconnected!
+

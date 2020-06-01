@@ -41,15 +41,15 @@ public class ClientConsole implements ChatIF
    * @param host The host to connect to.
    * @param port The port to connect on.
    */
-  public ClientConsole(String host, int port) 
+  public ClientConsole(String id, String host, int port) 
   {
     try 
     {
-      client= new ChatClient(host, port, this);
+      client= new ChatClient(id, host, port, this);
     } 
     catch(IOException exception) 
     {
-      System.out.println("Error: Can't setup connection!"
+      display("Error: Can't setup connection!"
                 + " Terminating client.");
       System.exit(1);
     }
@@ -73,13 +73,65 @@ public class ClientConsole implements ChatIF
       while (true) 
       {
         message = fromConsole.readLine();
-        client.handleMessageFromClientUI(message);
+
+        if (message.equals("#quit")) {
+          client.quit();
+        } else if (message.equals("#logoff")) {
+          client.closeConnection();
+        } else if (message.split(" ")[0].equals("#sethost")) {
+          if (client.isConnected()) {
+            display("Client logged in, logoff to set the host.");
+          } else {
+            String newHost = message.split(" ")[1];
+            client.setHost(newHost);
+            display("New host set to " + client.getHost());
+          }
+        } else if (message.split(" ")[0].equals("#setport")) {
+          if (client.isConnected()) {
+            display("Client logged in, logoff to set the port.");
+          } else {
+            int newPort = DEFAULT_PORT;
+            try {
+              newPort = Integer.parseInt(message.split(" ")[1]);
+              client.setPort(newPort);
+              display("New port set to " + client.getPort());
+            } catch (NumberFormatException e) {
+              display("Please enter port number in valid format.");
+            }
+          }
+        } else if (message.equals("#login")) {
+          if (client.isConnected()) {
+            display("Already logged in.");
+          } else {
+            client.openConnection();
+            client.login();
+          }
+        } else if (message.equals("#gethost")) {
+          if (client.isConnected()) {
+            display("current host name " + client.getHost());
+          } else {
+            display("client logged off, host N/A.");
+          }
+        } else if (message.equals("#getport")) {
+          if (client.isConnected()) {
+            display("current port number " + client.getPort());
+          } else {
+            display("client logged off, port N/A.");
+          }
+        } else if (!client.isConnected()) {
+          display("logged off from the server, login again to send messages.");
+        } else {
+
+          client.handleMessageFromClientUI(message);
+        }
+
+        
       }
     } 
     catch (Exception ex) 
     {
-      System.out.println
-        ("Unexpected error while reading from console!");
+      display
+        ("Unexpected error while reading from client console!");
     }
   }
 
@@ -104,18 +156,35 @@ public class ClientConsole implements ChatIF
    */
   public static void main(String[] args) 
   {
-    String host = "";
-    int port = 0;  //The port number
+    String loginid = "";
+    String host = "localhost";
+    int port = DEFAULT_PORT;  //The port number
 
-    try
-    {
-      host = args[0];
+    if (args.length == 1) {
+      loginid = args[0];
+    } else if (args.length == 3) {
+      loginid = args[0];
+      host = args[1];
+      try {
+        port = Integer.parseInt(args[2]);
+      } catch (NumberFormatException e) {
+        System.out.println("Invalid port number");
+        return;
+      }
+    } else {
+      System.out.println("invalid login");
+      return;
     }
-    catch(ArrayIndexOutOfBoundsException e)
-    {
-      host = "localhost";
-    }
-    ClientConsole chat= new ClientConsole(host, DEFAULT_PORT);
+
+    // try {
+    //   host = args[0];
+    //   port = Integer.parseInt(args[1]); //Get port from command line
+    // } catch(Throwable t) {
+    //   host = "localhost";
+    //   port = DEFAULT_PORT; //Set port to 5555
+    // }
+
+    ClientConsole chat = new ClientConsole(loginid, host, port);
     chat.accept();  //Wait for console data
   }
 }
